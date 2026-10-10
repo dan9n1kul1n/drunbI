@@ -59,54 +59,38 @@ class Weather:
         90° (восток) → ветер дует с востока на запад → [-w, 0, 0].
         """
         theta = np.radians(self.wind_direction_deg)
-        # Единичный вектор «откуда дует» — навстречу направлению ветра.
-        # Если ветер с севера, он дует на юг: [0, -1, 0].
         direction = np.array([-np.sin(theta), -np.cos(theta), 0.0])
 
         base = direction * self.wind_speed
 
-        # Порывы: плавные колебания скорости ветра.
+        # Порывы: усилили влияние
         if self.gusts:
             gust = (np.sin(self.time * 0.7) * 0.5 +
-                    np.sin(self.time * 1.9) * 0.3) * 2.0  # до ±1.6 м/с
+                    np.sin(self.time * 1.9) * 0.3) * self.wind_speed * 0.4
             base += direction * gust
 
-        # Турбулентность: случайный шум, сглаженный по времени.
+        # Турбулентность: усилили влияние
         if self.turbulence > 0:
             noise = self._rng.normal(0, 1, 3)
-            # Экспоненциальное сглаживание — турбулентность не «дёргается» резко.
             alpha = 0.05
             self._turb_state = (1 - alpha) * self._turb_state + alpha * noise
-            base += self._turb_state * self.turbulence
+            base += self._turb_state * self.turbulence * self.wind_speed * 0.5
 
         return base
 
     def drag_multiplier(self) -> float:
-        """Множитель сопротивления из-за осадков.
-
-        Дождь/снег/град увеличивают эффективное сопротивление, потому что
-        частицы сталкиваются с корпусом и винтами. Числа условные, но
-        монотонные: град > дождь > снег (снег легче, но липнет).
-        """
-        coefficients = {"none": 0.0, "rain": 0.3, "snow": 0.15, "hail": 0.5}
+        coefficients = {"none": 0.0, "rain": 0.8, "snow": 0.4, "hail": 1.2}   # было 0.3/0.15/0.5
         return 1.0 + coefficients.get(self.precipitation, 0.0) * self.precipitation_intensity
 
     def thrust_multiplier(self) -> float:
-        """Множитель тяги из-за плотности воздуха и осадков.
-
-        Тяга винта пропорциональна плотности воздуха.
-        Осадки ухудшают эффективность винта (смачивание, обледенение).
-        """
         density_factor = self.air_density / self.RHO_0
-
         precip_factor = 1.0
         if self.precipitation == "rain":
-            precip_factor -= 0.10 * self.precipitation_intensity
+            precip_factor -= 0.25 * self.precipitation_intensity   # было 0.10
         elif self.precipitation == "snow":
-            precip_factor -= 0.15 * self.precipitation_intensity
+            precip_factor -= 0.35 * self.precipitation_intensity   # было 0.15
         elif self.precipitation == "hail":
-            precip_factor -= 0.25 * self.precipitation_intensity
-
+            precip_factor -= 0.50 * self.precipitation_intensity   # было 0.25
         return density_factor * precip_factor
 
     def update(self, dt: float) -> None:
