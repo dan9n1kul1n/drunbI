@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://cs604q0hiaoi8"]
+
+[ext_resource type="Script" uid="uid://cijg5xe67l4fv" path="res://world.gd" id="1_rwgxs"]
+[ext_resource type="PackedScene" uid="uid://d1dlluh3ispq1" path="res://Generic+Quadcopter+Drone.glb" id="2_4wyf3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7k7ql"]
+sky_top_color = Color(0.6651851, 0.7977378, 1, 1)
+sky_horizon_color = Color(0.8548469, 0.92947316, 1, 1)
+ground_bottom_color = Color(0.58383155, 0.6651851, 0.48452926, 1)
+
+[sub_resource type="Sky" id="Sky_jph5f"]
+sky_material = SubResource("ProceduralSkyMaterial_7k7ql")
+
+[sub_resource type="Environment" id="Environment_ungw3"]
+background_mode = 2
+sky = SubResource("Sky_jph5f")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.5
+tonemap_mode = 2
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_m0tm5"]
+
+[node name="World" type="Node3D" unique_id=154578449]
+script = ExtResource("1_rwgxs")
+
+[node name="Camera" type="Camera3D" parent="." unique_id=337652696]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30, 0)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=273757230]
+shadow_enabled = true
+shadow_bias = 0.03
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=651796410]
+
+[node name="ControlHUD" type="Control" parent="HUD" unique_id=118267821]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TelemetryLabel" type="Label" parent="HUD/ControlHUD" unique_id=1028745748]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 420.0
+offset_bottom = 220.0
+
+[node name="Control" type="Control" parent="HUD" unique_id=1666198805]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ButtonsPanel" type="VBoxContainer" parent="HUD/Control" unique_id=1511916673]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 900.0
+offset_top = 30.0
+offset_right = 1032.0
+offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+
+[node name="ChangeDroneButton" type="Button" parent="HUD/Control/ButtonsPanel" unique_id=1461512033]
+layout_mode = 2
+text = "СМЕНИТЬ ДРОН"
+
+[node name="ChangePolygonButton" type="Button" parent="HUD/Control/ButtonsPanel" unique_id=1678069148]
+layout_mode = 2
+text = "СМЕНИТЬ ПОЛИГОН"
+
+[node name="RestartButton" type="Button" parent="HUD/Control/ButtonsPanel" unique_id=1046678552]
+layout_mode = 2
+text = "ПЕРЕЗАПУСТИТЬ"
+
+[node name="MenuButton" type="Button" parent="HUD/Control/ButtonsPanel" unique_id=1765672010]
+layout_mode = 2
+text = "В ГЛАВНОЕ МЕНЮ"
+
+[node name="QuitButton" type="Button" parent="HUD/Control/ButtonsPanel" unique_id=186871422]
+layout_mode = 2
+text = "ВЫХОД"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=411970671]
+environment = SubResource("Environment_ungw3")
+
+[node name="Trail" type="MeshInstance3D" parent="." unique_id=600390633]
+mesh = SubResource("ImmediateMesh_m0tm5")
+
+[node name="Drone" type="Node3D" parent="." unique_id=1292614153]
+
+[node name="DroneModel" parent="Drone" unique_id=1001109079 instance=ExtResource("2_4wyf3")]
+transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 0, 0)
+
+[node name="CameraFPV" type="Camera3D" parent="Drone" unique_id=1263253839]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 0.3)
