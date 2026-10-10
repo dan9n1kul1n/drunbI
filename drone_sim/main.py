@@ -1,8 +1,6 @@
 import sys
 from pathlib import Path
 
-# Добавляем корень проекта в путь поиска модулей,
-# чтобы работал импорт "from core.xxx import ...".
 sys.path.insert(0, str(Path(__file__).parent))
 
 from core.drone_profile import DroneProfile
@@ -13,37 +11,57 @@ from core.simulation import Simulation
 def main():
     root = Path(__file__).parent
 
-    # --- Загрузка профиля дрона ---
-    drone = DroneProfile.from_json(root / "configs" / "drones" / "quadcopter_x.json")
-    print(f"Загружен профиль: {drone}")
+    drone_name = sys.argv[1] if len(sys.argv) > 1 else "quadcopter_x"
+    weather_name = sys.argv[2] if len(sys.argv) > 2 else "wind4"
 
-    # --- Погода ---
-    # Ветер 2 м/с с северо-запада (метеорологическое направление: откуда дует),
-    # с порывами и умеренной турбулентностью, без осадков, +15 °C.
+    drone_path = root / "configs" / "drones" / f"{drone_name}.json"
+    drone = DroneProfile.from_json(drone_path)
+
+    # --- ЖЁСТКАЯ РАЗНИЦА ПОГОДЫ ---
+    if weather_name == "calm":
+        wind = 0.0
+    elif weather_name == "wind4":
+        wind = 4.0
+    elif weather_name == "wind7":
+        wind = 7.0
+    elif weather_name == "rain":
+        wind = 5.0
+    else:
+        wind = 4.0
+
+    print(f"!!! ЗАПУСК: дрон={drone_name}, погода={weather_name}, ветер={wind} м/с !!!")
+
     weather = Weather(
-        wind_speed_ms=2.0,
-        wind_direction_deg=315.0,   # северо-запад
+        wind_speed_ms=wind,
+        wind_direction_deg=315.0,
         gusts=True,
-        turbulence=0.3,
-        precipitation="none",
+        turbulence=0.5,
+        precipitation="rain" if weather_name == "rain" else "none",
+        precipitation_intensity=0.5 if weather_name == "rain" else 0.0,
         temperature_c=15.0,
-        seed=42,
+        seed=None,   # БЕЗ seed — каждый запуск РАЗНЫЙ
     )
 
-    # --- Симуляция ---
     sim = Simulation(
         profile=drone,
         weather=weather,
-        dt=0.005,          # шаг физики 5 мс (200 Гц)
-        duration=30.0,     # 30 секунд полёта
-        seed=42,
+        dt=0.005,
+        duration=30.0,
+        seed=None,
     )
 
     sim.run(target_altitude=10.0)
 
-    # --- Сохранение отчёта ---
     out_dir = root / "output" / "logs"
     sim.save_report(out_dir)
+
+    import shutil
+    godot_dir = root / "godot-viewer"
+    if godot_dir.exists():
+        shutil.copy(out_dir / "telemetry.csv", godot_dir / "telemetry.csv")
+        print(f"CSV скопирован в Godot")
+
+    print(f"!!! ЗАВЕРШЕНО: ветер={wind} м/с !!!")
 
 
 if __name__ == "__main__":
