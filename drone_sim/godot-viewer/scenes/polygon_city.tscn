@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://vwqxjr8232tr"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7k7ql"]
+sky_top_color = Color(0.63530785, 0.74861836, 0.9013741, 1)
+sky_horizon_color = Color(0.739101, 0.5554431, 0.30197078, 1)
+ground_bottom_color = Color(0.58383155, 0.6651851, 0.48452926, 1)
+
+[sub_resource type="Sky" id="Sky_jph5f"]
+sky_material = SubResource("ProceduralSkyMaterial_7k7ql")
+
+[sub_resource type="Environment" id="Environment_ungw3"]
+background_mode = 2
+sky = SubResource("Sky_jph5f")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.5
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_orqu4"]
+albedo_color = Color(0.4725169, 0.43694666, 0.4276599, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_m0tm5"]
+material = SubResource("StandardMaterial3D_orqu4")
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5lqrq"]
+albedo_color = Color(0.26094174, 0.21692622, 0.18904006, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_m0tm5"]
+material = SubResource("StandardMaterial3D_5lqrq")
+size = Vector3(10, 7, 4)
+
+[node name="City" type="Node3D" unique_id=154578449]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=273757230]
+shadow_enabled = true
+shadow_bias = 0.03
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=411970671]
+environment = SubResource("Environment_ungw3")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1178901933]
+mesh = SubResource("PlaneMesh_m0tm5")
+
+[node name="Zdanie" type="MeshInstance3D" parent="." unique_id=1565017110]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.5, 5)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="1" type="MeshInstance3D" parent="." unique_id=1838605411]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 3.5, -5)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie3" type="MeshInstance3D" parent="." unique_id=1682324653]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3.5, -15)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie4" type="MeshInstance3D" parent="." unique_id=1228422309]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 3.5, 5)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie5" type="MeshInstance3D" parent="." unique_id=763900566]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.5, -30)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie6" type="MeshInstance3D" parent="." unique_id=216429624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 3.5, -30)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie7" type="MeshInstance3D" parent="." unique_id=660997440]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 3.5, 50)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie8" type="MeshInstance3D" parent="." unique_id=1002558950]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 3.5, 35)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie9" type="MeshInstance3D" parent="." unique_id=579717102]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 3.5, 20)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie10" type="MeshInstance3D" parent="." unique_id=1398913211]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 3.5, 50)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie11" type="MeshInstance3D" parent="." unique_id=1807142688]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3.5, 20)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie12" type="MeshInstance3D" parent="." unique_id=1799051832]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25, 3.5, -60)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie13" type="MeshInstance3D" parent="." unique_id=1949749407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 3.5, -50)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie14" type="MeshInstance3D" parent="." unique_id=881912020]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 3.5, 80)
+mesh = SubResource("BoxMesh_m0tm5")
+
+[node name="Zdanie15" type="MeshInstance3D" parent="." unique_id=1740097207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60, 3.5, 20)
+mesh = SubResource("BoxMesh_m0tm5")
