@@ -49,7 +49,7 @@ class PhysicsEngine:
         T_world = R @ T_local
 
         F_gravity = gravity_world(self.mass)
-        F_drag = drag_world(state.velocity, wind_world, self.profile) * drag_multiplier
+        F_drag = drag_world(state.velocity, wind_world, self.profile) * drag_multiplier * 2.5
 
         F_total = T_world + F_gravity + F_drag
         accel = F_total / self.mass
