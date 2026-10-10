@@ -1,0 +1,95 @@
+[gd_scene format=3 uid="uid://bb3al5bowtofs"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7k7ql"]
+sky_top_color = Color(0.6651851, 0.7977378, 1, 1)
+sky_horizon_color = Color(0.8548469, 0.92947316, 1, 1)
+ground_bottom_color = Color(0.58383155, 0.6651851, 0.48452926, 1)
+
+[sub_resource type="Sky" id="Sky_jph5f"]
+sky_material = SubResource("ProceduralSkyMaterial_7k7ql")
+
+[sub_resource type="Environment" id="Environment_ungw3"]
+background_mode = 2
+sky = SubResource("Sky_jph5f")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.5
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_orqu4"]
+albedo_color = Color(0.39348933, 0.191484, 2.4065375e-07, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_m0tm5"]
+material = SubResource("StandardMaterial3D_orqu4")
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vlkv"]
+albedo_color = Color(0.10872077, 0.10872077, 0.10872076, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_5lqrq"]
+material = SubResource("StandardMaterial3D_4vlkv")
+top_radius = 0.0
+bottom_radius = 1.5
+
+[node name="Mountain" type="Node3D" unique_id=154578449]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=273757230]
+shadow_enabled = true
+shadow_bias = 0.03
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=411970671]
+environment = SubResource("Environment_ungw3")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=1178901933]
+mesh = SubResource("PlaneMesh_m0tm5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=432344791]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -100, 20, 50)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=760280159]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 200, 20, -70)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=807746350]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 200, 30, -90)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=603090007]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 180, 40, -120)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="." unique_id=1671955782]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 150, 20, -120)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="." unique_id=1697166598]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 150, 20, 120)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="." unique_id=1344875376]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 150, 30, 140)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D12" type="MeshInstance3D" parent="." unique_id=439993678]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 150, 40, 166)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D13" type="MeshInstance3D" parent="." unique_id=48757725]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 120, 25, 166)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=242787240]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -120, 40, 20)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=303961525]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -140, 40, 0)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1752266784]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -140, 40, -15)
+mesh = SubResource("CylinderMesh_5lqrq")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=949262552]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, -140, 30, -30)
+mesh = SubResource("CylinderMesh_5lqrq")
