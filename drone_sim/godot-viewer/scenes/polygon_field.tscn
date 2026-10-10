@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://7lejmkwt24ol"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_7k7ql"]
+sky_top_color = Color(0.6651851, 0.7977378, 1, 1)
+sky_horizon_color = Color(0.8548469, 0.92947316, 1, 1)
+ground_bottom_color = Color(0.58383155, 0.6651851, 0.48452926, 1)
+
+[sub_resource type="Sky" id="Sky_jph5f"]
+sky_material = SubResource("ProceduralSkyMaterial_7k7ql")
+
+[sub_resource type="Environment" id="Environment_ungw3"]
+background_mode = 2
+sky = SubResource("Sky_jph5f")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.5
+tonemap_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_orqu4"]
+albedo_color = Color(0.3555767, 0.47265548, 0.19255096, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_787bk"]
+material = SubResource("StandardMaterial3D_orqu4")
+size = Vector2(500, 500)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r5xbb"]
+albedo_color = Color(0.1708169, 0.09789506, 0.01835104, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r4h66"]
+material = SubResource("StandardMaterial3D_r5xbb")
+top_radius = 0.2
+bottom_radius = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_guo5i"]
+albedo_color = Color(0.08425317, 0.26332232, 2.4065375e-08, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_fusue"]
+material = SubResource("StandardMaterial3D_guo5i")
+radius = 1.2
+height = 2.4
+
+[node name="PolygonField" type="Node3D" unique_id=154578449]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=273757230]
+shadow_enabled = true
+shadow_bias = 0.03
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=411970671]
+environment = SubResource("Environment_ungw3")
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=895389814]
+mesh = SubResource("PlaneMesh_787bk")
+
+[node name="Trees" type="Node3D" parent="." unique_id=593311993]
+
+[node name="Tree1" type="MeshInstance3D" parent="Trees" unique_id=2066931422]
+transform = Transform3D(1.2, 0, 0, 0, 1.2, 0, 0, 0, 1.2, -10, 0, 15)
+mesh = SubResource("CylinderMesh_r4h66")
+
+[node name="Crown" type="MeshInstance3D" parent="Trees/Tree1" unique_id=1860167231]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("SphereMesh_fusue")
+
+[node name="Tree3" type="MeshInstance3D" parent="Trees" unique_id=1367013521]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -15)
+mesh = SubResource("CylinderMesh_r4h66")
+
+[node name="Crown" type="MeshInstance3D" parent="Trees/Tree3" unique_id=2023496412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("SphereMesh_fusue")
+
+[node name="Tree2" type="MeshInstance3D" parent="Trees" unique_id=1012963318]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 5, 0, 8)
+mesh = SubResource("CylinderMesh_r4h66")
+
+[node name="Crown" type="MeshInstance3D" parent="Trees/Tree2" unique_id=1685294680]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("SphereMesh_fusue")
+
+[node name="Tree4" type="MeshInstance3D" parent="Trees" unique_id=1423242815]
+transform = Transform3D(0.8, 0, 0, 0, 0.8, 0, 0, 0, 0.8, 30, 0, 25)
+mesh = SubResource("CylinderMesh_r4h66")
+
+[node name="Crown" type="MeshInstance3D" parent="Trees/Tree4" unique_id=2084385969]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1, 0)
+mesh = SubResource("SphereMesh_fusue")
