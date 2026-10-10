@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cgjy11hvbaf1p"
+
+[deps]
+
+files=["res://telemetry.pos.translation", "res://telemetry.pos.translation", "res://telemetry.pos.translation", "res://telemetry.vel.translation", "res://telemetry.vel.translation", "res://telemetry.vel.translation", "res://telemetry.roll.translation", "res://telemetry.pitch.translation", "res://telemetry.yaw.translation", "res://telemetry.p.translation", "res://telemetry.q.translation", "res://telemetry.r.translation", "res://telemetry.throttle.translation", "res://telemetry.roll.translation", "res://telemetry.pitch.translation", "res://telemetry.yaw.translation", "res://telemetry.wind.translation", "res://telemetry.wind.translation", "res://telemetry.battery.translation", "res://telemetry.motor.translation", "res://telemetry.gps.translation"]
+
+source_file="res://telemetry.csv"
+dest_files=["res://telemetry.pos.translation", "res://telemetry.pos.translation", "res://telemetry.pos.translation", "res://telemetry.vel.translation", "res://telemetry.vel.translation", "res://telemetry.vel.translation", "res://telemetry.roll.translation", "res://telemetry.pitch.translation", "res://telemetry.yaw.translation", "res://telemetry.p.translation", "res://telemetry.q.translation", "res://telemetry.r.translation", "res://telemetry.throttle.translation", "res://telemetry.roll.translation", "res://telemetry.pitch.translation", "res://telemetry.yaw.translation", "res://telemetry.wind.translation", "res://telemetry.wind.translation", "res://telemetry.battery.translation", "res://telemetry.motor.translation", "res://telemetry.gps.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true
