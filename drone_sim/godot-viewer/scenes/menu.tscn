@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dy17dpyrh5y81"]
+
+[ext_resource type="Script" uid="uid://dckswo4utk1or" path="res://menu.gd" id="1_yqeox"]
+
+[node name="Menu" type="Control" unique_id=422415455]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yqeox")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1362112945]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.6241381, 0.50452393, 0.5405063, 0.99607843)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1090047211]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=1806570524]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "СИМУЛЯТОР БПЛА"
+
+[node name="DroneLabel" type="Label" parent="VBoxContainer" unique_id=2040163026]
+layout_mode = 2
+text = "ДРОН"
+
+[node name="DroneDropdown" type="OptionButton" parent="VBoxContainer" unique_id=924590799]
+layout_mode = 2
+
+[node name="WeatherLabel" type="Label" parent="VBoxContainer" unique_id=292792427]
+layout_mode = 2
+text = "ПОГОДА"
+
+[node name="WeatherDropdown" type="OptionButton" parent="VBoxContainer" unique_id=1982310409]
+layout_mode = 2
+
+[node name="PolygonLabel" type="Label" parent="VBoxContainer" unique_id=218312949]
+layout_mode = 2
+text = "ПОЛИГОН"
+
+[node name="PolygonDropdown" type="OptionButton" parent="VBoxContainer" unique_id=858803093]
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="VBoxContainer" unique_id=1190792583]
+layout_mode = 2
+text = "ЗАПУСТИТЬ ПОЛЕТ"
+
+[node name="QuitButton" type="Button" parent="VBoxContainer" unique_id=1954322617]
+layout_mode = 2
+text = "ВЫХОД"
