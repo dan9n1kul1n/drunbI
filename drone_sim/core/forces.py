@@ -42,7 +42,7 @@ def drag_world(velocity_world: np.ndarray, wind_world: np.ndarray,
     k1 = d["linear_coeff"]
     k2 = d["quadratic_coeff"]
 
-    magnitude = k1 * speed + k2 * speed ** 2
+    magnitude = k1 * speed + k2 * speed ** 2 * 3.0
     return -magnitude * (v_rel / speed)
 
 
