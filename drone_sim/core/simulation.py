@@ -30,7 +30,7 @@ class Simulation:
         self.physics = PhysicsEngine(profile)
         self.mixer = MotorMixer(max_thrust_per_motor=profile.data["motors"]["max_thrust_n"])
         self.sensors = SensorSuite(seed=seed)
-        self.autopilot = Autopilot()
+        self.autopilot = Autopilot(drone_mass_kg=profile.mass)
 
         self.battery = Battery(
             capacity_mah=profile.data["battery"]["capacity_mah"],
@@ -43,7 +43,6 @@ class Simulation:
         self.state = DroneState()
         self._motor_thrusts = np.zeros(4)
 
-        # Команды пилота (по умолчанию — ничего).
         self.pilot_cmd = {
             "throttle": 0.0,
             "roll": 0.0,
@@ -59,12 +58,16 @@ class Simulation:
     def run(self, target_altitude: float = 10.0):
         """Запустить симуляцию на заданное время."""
         self.state = DroneState(position=np.array([0.0, 0.0, 0.0]))
-        self.autopilot.set_mode(Autopilot.MODE_ALTITUDE)
+
+        # Position Hold с целью в 100 м впереди по X.
+        # Дрон летит к цели, ветер мешает, дрон борется, но не компенсирует 100%.
+        self.autopilot.set_mode(Autopilot.MODE_POSITION_HOLD)
         self.autopilot.set_target_altitude(target_altitude)
-        self.autopilot.set_target_position(0.0, 0.0)  # держимся в точке старта
+        self.autopilot.set_target_position(100.0, 0.0)
 
         print(f"=== Симуляция: {self.profile.data['name']} ===")
         print(f"Погода: {self.weather}")
+        print(f"Режим: POSITION_HOLD, цель (100, 0)")
         print(f"Целевая высота: {target_altitude} м, длительность: {self.duration} с")
         print(f"Шаг: {self.dt} с, шагов: {int(self.duration / self.dt)}")
         print()
@@ -75,7 +78,6 @@ class Simulation:
         last_gps_valid = False
 
         for step in range(n_steps):
-            # 1. Опрос сенсоров (для будущей оценки состояния и логов).
             sf = self.physics.specific_force(
                 self.state,
                 self._motor_thrusts,
@@ -95,7 +97,6 @@ class Simulation:
                 )
                 last_gps_valid = gps_valid
 
-            # 2. Автопилот.
             throttle, roll, pitch, yaw = self.autopilot.update(
                 throttle_cmd=self.pilot_cmd["throttle"],
                 roll_cmd=self.pilot_cmd["roll"],
@@ -105,15 +106,13 @@ class Simulation:
                 angular_velocity=self.state.angular_velocity,
                 altitude=self.state.position[2],
                 dt=self.dt,
-                position=self.state.position[:2],   # x, y для Position Hold
+                position=self.state.position[:2],
             )
 
-            # 3. Миксер: команды → тяги моторов.
             throttle_n = throttle * self.profile.data["motors"]["max_thrust_n"]
             thrusts = self.mixer.mix(throttle_n, roll, pitch, yaw)
             self._motor_thrusts = thrusts
 
-            # 4. Батарея и температура моторов.
             total_thrust_n = float(np.sum(thrusts))
             hover_total = self.profile.mass * GRAVITY
             current = self.battery.consume(total_thrust_n, hover_total, self.dt)
@@ -123,7 +122,6 @@ class Simulation:
                 self.dt,
             )
 
-            # 5. Физика: шаг вперёд.
             self.weather.update(self.dt)
             self.state = self.physics.step_rk4(
                 self.state, thrusts,
@@ -132,7 +130,6 @@ class Simulation:
                 thrust_multiplier=self.weather.thrust_multiplier(),
             )
 
-            # 6. Телеметрия.
             self.telemetry.log(
                 self.state,
                 (throttle, roll, pitch, yaw),
@@ -142,7 +139,6 @@ class Simulation:
                 gps_valid,
             )
 
-            # Печать раз в секунду.
             if step % int(1.0 / self.dt) == 0:
                 print(f"[{self.state.time:6.2f} с] "
                       f"pos=({self.state.position[0]:7.2f},{self.state.position[1]:7.2f},{self.state.position[2]:6.2f}) "
