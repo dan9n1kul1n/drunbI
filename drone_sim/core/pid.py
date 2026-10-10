@@ -1,11 +1,5 @@
 class PID:
-    """ПИД-регулятор с анти-виндапом и ограничением выхода.
-
-    Используется для:
-      - стабилизации углов (roll, pitch, yaw)
-      - удержания высоты (throttle)
-      - удержания позиции (в перспективе)
-    """
+    """ПИД-регулятор с анти-виндапом и ограничением выхода."""
 
     def __init__(self, kp: float, ki: float, kd: float,
                  output_min: float = -1.0, output_max: float = 1.0,
@@ -28,28 +22,35 @@ class PID:
         self._first_call = True
 
     def update(self, error: float, dt: float) -> float:
-        """Один шаг регулятора.
+        """Один шаг регулятора с анти-виндапом.
 
-        error — рассогласование (setpoint - measurement).
-        dt — шаг по времени.
-        Возвращает управляющее воздействие, ограниченное [output_min, output_max].
+        Анти-виндап: если выход уже уперся в потолок, а ошибка того же знака,
+        интеграл НЕ накапливается. Это предотвращает «откат» после насыщения.
         """
         # Пропорциональная часть.
         p = self.kp * error
 
-        # Интегральная часть с ограничением (анти-виндап).
-        self._integral += error * dt
-        self._integral = max(self.integral_min, min(self.integral_max, self._integral))
-        i = self.ki * self._integral
-
-        # Дифференциальная часть. На первом вызове пропускаем — иначе
-        # получим огромный скачок из-за нулевого prev_error.
+        # Дифференциальная часть.
         if self._first_call:
             d = 0.0
             self._first_call = False
         else:
             d = self.kd * (error - self._prev_error) / dt
 
+        # Предварительный выход без интеграла.
+        output_without_i = p + d
+
+        # Проверка насыщения.
+        with_i = output_without_i + self.ki * self._integral
+        would_saturate_high = with_i >= self.output_max
+        would_saturate_low = with_i <= self.output_min
+
+        # Накапливаем интеграл только вне насыщения.
+        if not ((would_saturate_high and error > 0) or (would_saturate_low and error < 0)):
+            self._integral += error * dt
+            self._integral = max(self.integral_min, min(self.integral_max, self._integral))
+
+        i = self.ki * self._integral
         self._prev_error = error
 
         output = p + i + d
